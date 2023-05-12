@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.rusticprism.scrollabletooltips.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ScrollMixin",
+    "ToolTippMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

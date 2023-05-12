@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "scollable-tooltips",
+  "version": "${version}",
+  "name": "ScrollableTooltips",
+  "description": "A Mod to Scroll in Tooltips of items",
+  "authors": [ "RusticPrism" ],
+  "contact": {
+    "repo": "https://github.com/RusticPrism/ScrollableTooltips"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "de.rusticprism.scrollabletooltips.ScrollableTooltips"
+    ]
+  },
+  "mixins": [
+    "ScrollableTooltips.mixins.json"
+  ],
+  "accessWidener": "scrollable-tooltips.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": ">1.19"
+  }
+}
