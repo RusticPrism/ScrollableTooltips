@@ -3,6 +3,7 @@ package de.rusticprism.scrollabletooltips.mixin;
 import de.rusticprism.scrollabletooltips.ScrollableTooltips;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,7 +15,7 @@ public class ScrollMixin {
     private boolean scrolled = false;
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
     public void onScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
-        if (MinecraftClient.getInstance().currentScreen == null) {
+        if (MinecraftClient.getInstance().currentScreen instanceof AbstractInventoryScreen<?>) {
             return;
         }
         if(!scrolled) {

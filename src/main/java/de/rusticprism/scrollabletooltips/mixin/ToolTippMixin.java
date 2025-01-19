@@ -6,16 +6,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.OrderedTextTooltipComponent;
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.tooltip.TooltipBackgroundRenderer;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipPositioner;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.ScoreTextContent;
-import net.minecraft.text.Text;
 import org.joml.Matrix4f;
 import org.joml.Vector2ic;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,15 +35,17 @@ public class ToolTippMixin {
     public void renderTooltip(MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo ci) {
         ci.cancel();
         if (!components.isEmpty()) {
-            if(components.size() > ScrollableTooltips.scrollDistance) {
-                if (ScrollableTooltips.scrollDistance > 0) {
-                    components.subList(0, ScrollableTooltips.scrollDistance).clear();
+            if(MinecraftClient.getInstance().currentScreen instanceof AbstractInventoryScreen<?>) {
+                if (components.size() > ScrollableTooltips.scrollDistance) {
+                    if (ScrollableTooltips.scrollDistance > 0) {
+                        components.subList(0, ScrollableTooltips.scrollDistance).clear();
+                    }
+                } else {
+                    TooltipComponent component = components.get(components.size() - 1);
+                    ScrollableTooltips.scrollDistance = components.size() - 1;
+                    components.clear();
+                    components.add(component);
                 }
-            }else {
-                TooltipComponent component = components.get(components.size() - 1);
-                ScrollableTooltips.scrollDistance = components.size() -1;
-                components.clear();
-                components.add(component);
             }
             int i = 0;
             int j = components.size() == 1 ? -2 : 0;
